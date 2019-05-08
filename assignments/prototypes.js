@@ -145,3 +145,56 @@ function Humanoid(attrs) {
   // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.  
   // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
   // * Create two new objects, one a villain and one a hero and fight it out with methods!
+
+  function Villain(attrs) {
+    Humanoid.call(this, attrs);
+    };
+    Villain.prototype = Object.create(Humanoid.prototype);
+  
+    Villain.prototype.greet = function() {
+      return `${this.name} offers a greeting in ${this.language}.`
+    };
+
+
+    function Hero(attrs) {
+      Humanoid.call(this, attrs);
+      };
+      Hero.prototype = Object.create(Humanoid.prototype);
+    
+      Hero.prototype.greet = function() {
+        return `${this.name} offers a greeting in ${this.language}.`
+      };
+
+
+      const thanos = new Villain({
+        createdAt: new Date(),
+        dimensions: {
+          length: 8,
+          width: 8,
+          height: 9,
+        },
+        healthPoints: 25,
+        name: 'Thanos',
+        team: 'Alone',
+        weapons: [
+          'Giant Sword',
+        ],
+        language: 'Common Tongue',
+      });
+
+      const thor = new Hero({
+        createdAt: new Date(),
+        dimensions: {
+          length: 5,
+          width: 6,
+          height: 5,
+        },
+        healthPoints: 15,
+        name: 'Thor',
+        team: 'The Avengers',
+        weapons: [
+          'Axe',
+          'Hammer',
+        ],
+        language: 'Common Tongue',
+      });
