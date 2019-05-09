@@ -16,12 +16,36 @@
   * destroy() // prototype method that returns: `${this.name} was removed from the game.`
 */
 
+function GameObject(attrs) {
+  this.createdAt = attrs.createdAt;
+  this.name = attrs.name;
+  this.dimesnsions = attrs.dimesnsions;
+}
+GameObject.prototype.destroy = function() {
+  return `${this.name} was removed from the game.`
+};
+
+
+
 /*
   === CharacterStats ===
   * healthPoints
   * takeDamage() // prototype method -> returns the string '<object name> took damage.'
   * should inherit destroy() from GameObject's prototype
 */
+function CharacterStats(attrs) {
+  GameObject.call(this, attrs);
+  this.healthPoints = attrs.healthPoints; 
+  };
+
+  CharacterStats.prototype = Object.create(GameObject.prototype);
+
+  CharacterStats.prototype.takeDamage = function() {
+    return `${this.name} took damage.`
+  };
+  
+  
+
 
 /*
   === Humanoid (Having an appearance or character resembling that of a human.) ===
@@ -32,6 +56,19 @@
   * should inherit destroy() from GameObject through CharacterStats
   * should inherit takeDamage() from CharacterStats
 */
+function Humanoid(attrs) {
+  CharacterStats.call(this, attrs);
+  this.team = attrs.team;
+  this.weapons = attrs.weapons;
+  this.language = attrs.language;
+  this.dimensions = attrs.dimensions; 
+  };
+  Humanoid.prototype = Object.create(CharacterStats.prototype);
+
+  Humanoid.prototype.greet = function() {
+    return `${this.name} offers a greeting in ${this.language}.`
+  };
+
  
 /*
   * Inheritance chain: GameObject -> CharacterStats -> Humanoid
@@ -41,7 +78,7 @@
 
 // Test you work by un-commenting these 3 objects and the list of console logs below:
 
-/*
+
   const mage = new Humanoid({
     createdAt: new Date(),
     dimensions: {
@@ -102,9 +139,62 @@
   console.log(archer.greet()); // Lilith offers a greeting in Elvish.
   console.log(mage.takeDamage()); // Bruce took damage.
   console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
-*/
+
 
   // Stretch task: 
   // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.  
   // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
   // * Create two new objects, one a villain and one a hero and fight it out with methods!
+
+  function Villain(attrs) {
+    Humanoid.call(this, attrs);
+    };
+    Villain.prototype = Object.create(Humanoid.prototype);
+  
+    Villain.prototype.greet = function() {
+      return `${this.name} offers a greeting in ${this.language}.`
+    };
+
+
+    function Hero(attrs) {
+      Humanoid.call(this, attrs);
+      };
+      Hero.prototype = Object.create(Humanoid.prototype);
+    
+      Hero.prototype.greet = function() {
+        return `${this.name} offers a greeting in ${this.language}.`
+      };
+
+
+      const thanos = new Villain({
+        createdAt: new Date(),
+        dimensions: {
+          length: 8,
+          width: 8,
+          height: 9,
+        },
+        healthPoints: 25,
+        name: 'Thanos',
+        team: 'Alone',
+        weapons: [
+          'Giant Sword',
+        ],
+        language: 'Common Tongue',
+      });
+
+      const thor = new Hero({
+        createdAt: new Date(),
+        dimensions: {
+          length: 5,
+          width: 6,
+          height: 5,
+        },
+        healthPoints: 15,
+        name: 'Thor',
+        team: 'The Avengers',
+        weapons: [
+          'Axe',
+          'Hammer',
+        ],
+        language: 'Common Tongue',
+      });
